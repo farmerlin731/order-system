@@ -1,5 +1,6 @@
 package com.example.ordersystem.controller;
 
+import com.example.ordersystem.dto.response.ProductDTO;
 import com.example.ordersystem.model.Product;
 import com.example.ordersystem.repository.ProductRepository;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,18 @@ public class ProductController {
         this.productRepository = productRepository;
     }
 
+//    //Original version
+//    @GetMapping
+//    public List<Product> getAllProducts() {
+//        return productRepository.findAll();
+//    }
+
+    //DTO version
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductDTO> getProducts() {
+        return productRepository.findAll().stream()
+                .map(ProductDTO::fromEntity)
+                .toList();
     }
 
     @PostMapping
