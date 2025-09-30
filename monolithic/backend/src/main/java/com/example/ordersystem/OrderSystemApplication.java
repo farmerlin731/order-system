@@ -1,6 +1,6 @@
 package com.example.ordersystem;
 
-import com.example.ordersystem.model.CustomerOrder;
+import com.example.ordersystem.model.Order;
 import com.example.ordersystem.model.OrderItem;
 import com.example.ordersystem.model.Product;
 import com.example.ordersystem.repository.OrderItemRepository;
@@ -10,7 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class OrderSystemApplication {
     }
 
     @Bean
-    @Order(1)
+    @org.springframework.core.annotation.Order(1)
         // 第一個執行
     CommandLineRunner initProducts(ProductRepository productRepository) {
         return args -> {
@@ -39,15 +38,15 @@ public class OrderSystemApplication {
 
     // 初始化訂單
     @Bean
-    @Order(2)
+    @org.springframework.core.annotation.Order(2)
     // 第二個執行
     CommandLineRunner initOrders(OrderRepository orderRepository) {
         return args -> {
             if (orderRepository.count() == 0) {
-                CustomerOrder customerOrder = CustomerOrder.builder()
+                Order order = Order.builder()
                         .customerName("Alice")
                         .build();
-                orderRepository.save(customerOrder);
+                orderRepository.save(order);
                 System.out.println("Orders initialized.");
             }
         };
@@ -55,7 +54,7 @@ public class OrderSystemApplication {
 
     // 初始化訂單項目
     @Bean
-    @Order(3)
+    @org.springframework.core.annotation.Order(3)
     // 第三個執行
     CommandLineRunner initOrderItems(
             OrderRepository orderRepository,
@@ -64,10 +63,10 @@ public class OrderSystemApplication {
     ) {
         return args -> {
             if (orderItemRepository.count() == 0) {
-                CustomerOrder customerOrder = orderRepository.findAll().get(0); // 假設只有一筆訂單
+                Order order = orderRepository.findAll().get(0); // 假設只有一筆訂單
                 Product iphone = productRepository.findByName("iPhone 16")
                         .orElseThrow(() -> new RuntimeException("Product not found"));
-                orderItemRepository.save(new OrderItem(null, customerOrder, iphone, 1));
+                orderItemRepository.save(new OrderItem(null, order, iphone, 1));
                 System.out.println("OrderItems initialized.");
             }
         };

@@ -19,7 +19,7 @@ public class OrderItem {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "order_id", nullable = false)
-    private CustomerOrder customerOrder;
+    private Order order;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id", nullable = false)
