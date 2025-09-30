@@ -2,7 +2,8 @@
 
 The following was discovered as part of building this project:
 
-* The original package name 'com.example.order-system' is invalid and this project uses 'com.example.ordersystem'
+* The original package name 'com.example.customerOrder-system' is invalid and this project uses '
+  com.example.ordersystem'
   instead.
 
 # Getting Started
