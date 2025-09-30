@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -21,5 +24,17 @@ public class CustomerOrder {
 
     private String customerName;
 
-    private LocalDateTime createdAt;
+    @CreationTimestamp // Hibernate 自動生成
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "customerOrder", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<OrderItem> items = new ArrayList<>();
+
+    //2-way add item
+    public void addItem(OrderItem item) {
+        items.add(item);
+        item.setCustomerOrder(this);
+    }
 }

@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
@@ -45,9 +44,10 @@ public class OrderSystemApplication {
     CommandLineRunner initOrders(OrderRepository orderRepository) {
         return args -> {
             if (orderRepository.count() == 0) {
-                CustomerOrder customerOrder = orderRepository.save(
-                        new CustomerOrder(null, "Alice", LocalDateTime.now())
-                );
+                CustomerOrder customerOrder = CustomerOrder.builder()
+                        .customerName("Alice")
+                        .build();
+                orderRepository.save(customerOrder);
                 System.out.println("Orders initialized.");
             }
         };
